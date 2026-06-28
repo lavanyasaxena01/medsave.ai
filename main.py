@@ -1,7 +1,7 @@
 import os
 
 import streamlit as st
-from paddleocr import PaddleOCR
+import easyocr
 import numpy as np
 from PIL import Image
 from StoreLocator import locatestore
@@ -45,11 +45,30 @@ def get_api_key():
 
 @st.cache_resource
 def load_model():
-    return PaddleOCR(
-        use_angle_cls=True,
-        lang="en",
-        enable_mkldnn=False,
-    )
+    project_dir = os.path.dirname(__file__)
+    model_dir = os.path.join(project_dir, ".easyocr_models")
+    user_network_dir = os.path.join(project_dir, ".easyocr_user_network")
+
+    try:
+        os.makedirs(model_dir, exist_ok=True)
+        os.makedirs(user_network_dir, exist_ok=True)
+        return easyocr.Reader(
+            ["en"],
+            gpu=False,
+            model_storage_directory=model_dir,
+            user_network_directory=user_network_dir,
+        )
+    except PermissionError:
+        backup_dir = os.path.join(project_dir, ".easyocr_models_backup")
+        backup_user_dir = os.path.join(project_dir, ".easyocr_user_network_backup")
+        os.makedirs(backup_dir, exist_ok=True)
+        os.makedirs(backup_user_dir, exist_ok=True)
+        return easyocr.Reader(
+            ["en"],
+            gpu=False,
+            model_storage_directory=backup_dir,
+            user_network_directory=backup_user_dir,
+        )
 
 st.set_page_config(
     page_title="MedSave AI",
@@ -86,13 +105,12 @@ if but in ("Upload Prescribsion", "Upload Single Medicine"):
             ocr = load_model()
 
         with st.spinner("Extracting text..."):
-            result = ocr.predict(image_np)
+            result = ocr.readtext(image_np, detail=0, paragraph=True)
 
-        final_res = []
-        for page in result:
-            final_res.extend(page.get("rec_texts", []))
-
-        ocr_text = " ".join(final_res).strip()
+        if isinstance(result, str):
+            ocr_text = result.strip()
+        else:
+            ocr_text = " ".join(result).strip()
 
         if not ocr_text:
             st.error("No readable text was found in the uploaded image.")

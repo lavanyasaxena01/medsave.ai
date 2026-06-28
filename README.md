@@ -48,7 +48,7 @@ Users can locate Jan Aushadhi Kendras in two ways:
 ## 🛠️ Tech Stack
 
 * Python
-* AI/OCR for prescription analysis
+* EasyOCR for prescription analysis
 * Location Services
 * Jan Aushadhi Medicine Database
 * Git & GitHub

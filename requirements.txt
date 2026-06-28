@@ -7,6 +7,4 @@ folium
 streamlit-folium
 streamlit-geolocation
 opencv-python-headless==4.10.0.84
-
-paddlepaddle==3.0.0
-paddleocr==3.4.1
+easyocr
