@@ -1,4 +1,4 @@
-## 🏆 Hackathon Project
+w## 🏆 Hackathon Project
 
 # MedSave AI 💊
 
@@ -119,7 +119,3 @@ python main.py
 Millions of people spend more on medicines simply because they are unaware of affordable alternatives. MedSave AI aims to bridge that gap by helping users discover equivalent Jan Aushadhi medicines, compare prices, calculate their savings, and easily locate nearby Jan Aushadhi stores, making healthcare more affordable and accessible.
 
 ---
-
-## ❤️ Acknowledgements
-
-Special thanks to **[@LavanyaSaxena01](https://github.com/LavanyaSaxena01)** for their valuable contributions to the development of MedSave AI.
