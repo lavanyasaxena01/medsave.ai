@@ -122,4 +122,4 @@ Millions of people spend more on medicines simply because they are unaware of af
 
 ## ❤️ Acknowledgements
 
-Special thanks to **[@LavanyaSaxena01](https://github.com/LavanyaSaxena01)** for their valuable contributions to the development of MedSave AI.
+Special thanks to **[@Saksham Gupta](https://github.com/sakshamengineer)** for their valuable contributions to the development of MedSave AI.
