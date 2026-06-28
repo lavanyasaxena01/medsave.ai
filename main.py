@@ -131,4 +131,38 @@ if but in ("Upload Prescribsion", "Upload Single Medicine"):
                     st.error(f"AI generation failed: {exc}")
             else:
                 st.error("Add APIKEY to use AI text generation.")
+                elif but == "Type Manually":
+
+    medicine_name = st.text_input("Enter Medicine Name")
+
+    if st.button("Search Medicine"):
+
+        if medicine_name.strip() == "":
+            st.warning("Please enter a medicine name.")
+
+        elif not api_key:
+            st.error("APIKEY is not configured.")
+
+        else:
+            with st.spinner("Searching..."):
+
+                response = Generatetxt(
+                    f"""
+Find the Jan Aushadhi equivalent for this medicine.
+
+Medicine: {medicine_name}
+
+Return:
+1. Brand Medicine
+2. Generic Name
+3. Jan Aushadhi Equivalent
+4. Approx Brand Price
+5. Jan Aushadhi Price
+6. Savings Amount
+7. Savings Percentage
+""",
+                    api_key=api_key,
+                )
+
+            st.text_area("Result", response, height=300)
 locatestore()
