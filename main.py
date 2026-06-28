@@ -1,5 +1,4 @@
 import os
-
 import streamlit as st
 import easyocr
 import numpy as np
@@ -107,29 +106,50 @@ if but in ("Upload Prescribsion", "Upload Single Medicine"):
         with st.spinner("Extracting text..."):
             result = ocr.readtext(image_np, detail=0, paragraph=True)
 
-        if isinstance(result, str):
-            ocr_text = result.strip()
-        else:
-            ocr_text = " ".join(result).strip()
+        ocr_text = result.strip() if isinstance(result, str) else " ".join(result).strip()
 
         if not ocr_text:
-            st.error("No readable text was found in the uploaded image.")
+            st.error("No readable text was found.")
         else:
             if api_key:
-                try:
-                    with st.spinner("Analyzing medicine..."):
-                        response = Generatetxt(
-                            prompt(
-                                "The following text has been extracted from a medicine strip using OCR.",
-                                ocr_text,
-                            ),
-                            api_key=api_key,
-                        )
-                    st.text_area("AI Result", response, height=300)
+                response = Generatetxt(
+                    prompt(
+                        "The following text has been extracted from a medicine strip using OCR.",
+                        ocr_text,
+                    ),
+                    api_key=api_key,
+                )
+                st.text_area("AI Result", response, height=300)
 
-                except Exception as exc:
-                    st.error(f"AI generation failed: {exc}")
             else:
-                st.error("Add APIKEY to use AI text generation.")
+                st.error("APIKEY not configured.")
+
+elif but == "Type Manually":
+
+    medicine = st.text_input("Enter Medicine Name")
+
+    if st.button("Search"):
+
+        if medicine.strip() == "":
+            st.warning("Please enter a medicine name.")
+
+        else:
+
+            response = Generatetxt(
+                f"""
+Medicine Name: {medicine}
+
+Find:
+1. Generic Name
+2. Jan Aushadhi Equivalent
+3. Brand Price
+4. Jan Aushadhi Price
+5. Savings
+6. Savings Percentage
+""",
+                api_key=api_key,
+            )
+
+            st.text_area("Result", response, height=300)
 
 locatestore()
