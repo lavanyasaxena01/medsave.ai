@@ -74,7 +74,7 @@ st.set_page_config(
 )
 
 st.title("MedSave AI")
-st.subheader("Find Generetic Medicine")
+st.subheader("Find Generic Medicine")
 
 api_key = get_api_key()
 if not api_key:
